@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <title>demo</title>
+    </head>
+    <body>
+        <div>总商品数: {{all}}</div>
+        <div>总销售额：{{money}}</div>
+    </body>
+</html>

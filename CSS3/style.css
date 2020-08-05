@@ -1,0 +1,198 @@
+
+.diamond{
+    width: 200px;
+    height: 200px;
+    background-color: #6a6;
+    margin: 100px auto;
+    transform: rotate(45deg);
+}
+.parallel{
+    width: 200px;
+    height: 200px;
+    background-color: #6a6;
+    margin: 100px auto;
+    transform: skew(20deg, 30deg);
+}
+
+.dialog{
+    background-color: #6a6;
+    margin: 50px auto;
+    width: 300px;
+    height: 25px;
+    line-height: 25px;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+    position: relative;
+}
+
+.dialog::before{
+    content:"";
+    border-left: 0px solid #6a6;
+    border-top:  10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #6a6;
+    position: absolute;
+    left:-10px;
+    top:14px;
+}
+
+#star{
+    width: 0px;
+    height: 0px;
+    border-bottom: 70px solid red;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    margin: 150px auto;
+    transform: rotate(35deg);
+    position: relative;
+}
+#star::before{
+    content: "";
+    width: 0px;
+    height: 0px;
+    border-bottom: 80px solid red;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    transform: rotate(-35deg);
+    position: absolute;
+    top: -45px;
+    left: -65px;
+}
+#star::after{
+    content: "";
+    border-bottom: 70px solid red;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    transform: rotate(-70deg);
+    position: absolute;
+    top: 3px;
+    left: -105px;
+    
+}
+
+#star2{
+    width: 0px;
+    height: 0px;
+    border-bottom: 100px solid red;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    margin: 100px auto;
+    position: relative;
+}
+#star2::after{
+    content: "";
+    width: 0px;
+    height: 0px;
+    border-top: 100px solid red;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    margin: 100px auto;
+    position: absolute;
+    top: -70px;
+    left: -50px;
+}
+
+#zheng{
+    width: 50px;
+    height: 50px;
+    border-top: 50px solid #F00;
+    border-left: 50px solid #0F0;
+    border-right: 50px solid #00F;
+    border-bottom: 50px solid #ff0;
+}
+
+#wubian{
+    position: relative;
+    width: 54px;
+    height: 0px;
+    border-top: 50px solid red;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    margin: 100px auto;
+}
+
+#wubian::after{
+    content: '';
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-bottom: 35px solid red;
+    border-left: 45px solid transparent;
+    border-right: 45px solid transparent;
+    top: -85px;
+    left: -18px;
+}
+
+#six{
+    margin: 100px auto;
+    width: 100px;
+    height: 55px;
+    background-color: red;
+    position: relative;
+    
+}
+
+#six::before{
+    content: "";
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-bottom: 25px solid red;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    top: -25px;
+}
+
+#six::after{
+    content: "";
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-top: 25px solid red;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    top: 55px;
+}
+
+#heart{
+    width: 100px;
+    height: 90px;
+    position: relative;
+    margin: 100px auto;
+}
+
+#heart::before{
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 80px;
+    background-color: red;
+    border-radius: 50px 40px 0px 0px;
+    transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    transform: rotate(-45deg);
+    left: 50px;
+}
+
+#heart::after{
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 80px;
+    background-color: red;
+    border-radius: 50px 40px 0px 0px;
+    transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    transform: rotate(45deg);
+}
+
+#egg{
+    width: 126px;
+    height: 180px;
+    background-color: #FA3;
+    margin: 100px auto;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}

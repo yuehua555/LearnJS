@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel='stylesheet' type='text/css' href="./css/test.css" />
+        <title>demo</title>
+    </head>
+    <body>
+        {{each shop}}
+            <div class='a-shop'>
+                <div>商品名: {{$value.shopName}}</div>
+                <div>销售额：{{$value.price}}</div>
+            </div>
+        {{/each}}
+    </body>
+</html>

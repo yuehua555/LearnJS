@@ -1,0 +1,30 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-06-05 19:53:11
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-07-27 16:52:49
+ * @FilePath: \node\myapp\demo.html
+--> 
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" charset="utf-8" >
+            function test1() {
+                alert("绑定HTML属性");
+            }
+            function test2() {
+                alert("绑定DOM对象属性");
+            }
+        
+        </script>
+    </head>
+    <body>
+        <a href="http://www.iotek.com.cn" onclick="return false">点击我</a>
+        <input type="button" value="test1" id="mytest1" onclick="test1()" />
+        <button type="button" id="test2"><b>test2</b></button>
+        <script type="text/javascript">
+            document.getElementById("test2").onclick=test2;
+        </script>
+    </body>
+</html>
