@@ -1,0 +1,21 @@
+#backgroud{
+    margin: 100px auto;
+    width: 500px;
+    height: 417px;
+    background-image: url('./panda.jpg');
+    position: relative;
+}
+#content{
+    position: absolute;
+    width: 300px;
+    height:150px;
+    background-color: #fff;
+    opacity: 0.8;
+    top: 100px;
+    left: 100px;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 3px 3px 5px #888;
+
+}

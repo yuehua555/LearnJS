@@ -2,12 +2,14 @@
  * @Author: George Wu
  * @Date: 2020-08-01 20:47:42
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-04 21:24:23
- * @FilePath: \CSS3d:\learnJavascript\vue\compile.js
+ * @LastEditTime: 2020-08-06 21:51:50
+ * @FilePath: \LearnJS\vue\compile.js
  */ 
 (function(root){
     // 编译器默认配置  辅助函数
     var baseOptions = {};
+
+    var no = function() {};
 
     /**
    * Mix properties into target object.
@@ -213,11 +215,115 @@
         }
       });
 
+    // Regular Expressions for parsing tags and attributes
+    var attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/;
+    // could use https://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-QName
+    // but for Vue templates we can enforce a simple charset
+    var ncname = '[a-zA-Z_][\\w\\-\\.]*';
+    var qnameCapture = "((?:" + ncname + "\\:)?" + ncname + ")";
+    var startTagOpen = new RegExp(("^<" + qnameCapture));
+    var startTagClose = /^\s*(\/?)>/;
+    var endTag = new RegExp(("^<\\/" + qnameCapture + "[^>]*>"));
+    var doctype = /^<!DOCTYPE [^>]+>/i;
+    var comment = /^<!--/;
+    var conditionalComment = /^<!\[/;
+
+    function parseHTML(html, options) {
+        console.log(html);
+        var stack = [];
+        var expectHTML = options.expectHTML; // 编译器内部的选项
+        var isUnaryTag$$1 = options.isUnaryTag || no; // 一个标签是否为一元标签
+        var canBeLeftOpenTag$$1 = options.canBeLeftOpenTag || no; // 可以省略闭合标签的非一元标签
+        var index = 0; // 字符流读入的位置
+        var last, lastTag;
+
+        //while(html) {    // <div id='app'>{{message}}</div>
+            last = html;
+            if (!lastTag || !isPlainTextElement(lastTag)) {
+                // Start tag:
+                var startTagMatch = parseStartTag();
+                if (startTagMatch) {
+                    handleStartTag(startTagMatch);
+                // if (shouldIgnoreFirstNewline(lastTag, html)) {
+                //     advance(1);
+                // }
+                 //   continue
+                }
+            }
+       // }
+       function advance (n) {
+            index += n;
+            html = html.substring(n);
+        }
+
+                
+        function handleStartTag (match) {
+            var tagName = match.tagName;
+            var unarySlash = match.unarySlash;
+
+            var unary = !!unarySlash; // "" or "/"
+
+            var l = match.attrs.length;
+            var attrs = new Array(l);
+            for (var i = 0; i < l; i++) {
+                var args = match.attrs[i];
+                console.log(args);
+                var value = args[3] || args[4] || args[5] || '';
+                attrs[i] = {
+                    name: args[1],
+                    value: value
+                };
+            }
+
+            //console.log(attrs);
+            if (!unary) {
+                stack.push({ tag: tagName, lowerCasedTag: tagName.toLowerCase(), attrs: attrs });
+                lastTag = tagName;
+              }
+          
+            if (options.start) {
+            options.start(tagName, attrs, unary, match.start, match.end);
+            }
+    }
+
+        // startTagOpen 正则文法 token
+        function parseStartTag () {
+            var start = html.match(startTagOpen);
+            //console.log(start);
+            if (start) {
+                var match = {
+                  tagName: start[1],
+                  attrs: [],
+                  start: index
+                };
+            }
+            advance(start[0].length);
+            console.log(html);
+            var end, attr; // 非一元标签
+            while (!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
+                advance(attr[0].length);
+                match.attrs.push(attr);
+                console.log(html);
+            }
+            if (end) {
+                match.unarySlash = end[1]; // unarySlash "" 非一元标签 "/" 一元标签
+                advance(end[0].length);
+                match.end = index;
+                console.log(html);
+                return match
+            }
+        }
+
+    }
+
     // 编译html  入口函数
     function parse(template) {
         //console.log(template);
         parseHTML(template, {
-            start: function(){},
+            start: function(){
+                // AST 构建子父级关系
+                console.log("解析开始标签调用的钩子函数");
+            },
             end: function(){},
             chars: function(){},
             comment: function(){}
