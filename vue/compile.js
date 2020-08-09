@@ -2,12 +2,22 @@
  * @Author: George Wu
  * @Date: 2020-08-01 20:47:42
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-06 21:51:50
+ * @LastEditTime: 2020-08-09 16:43:41
  * @FilePath: \LearnJS\vue\compile.js
  */ 
 (function(root){
     // 编译器默认配置  辅助函数
     var baseOptions = {};
+
+    // Browser environment sniffing
+    var inBrowser = typeof window !== 'undefined';
+    var UA = inBrowser && window.navigator.userAgent.toLowerCase();
+    var isIE = UA && /msie|trident/.test(UA);
+    var isIE9 = UA && UA.indexOf('msie 9.0') > 0;
+    var isEdge = UA && UA.indexOf('edge/') > 0;
+    var isAndroid = UA && UA.indexOf('android') > 0;
+    var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA);
+    var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
 
     var no = function() {};
 
@@ -228,8 +238,29 @@
     var comment = /^<!--/;
     var conditionalComment = /^<!\[/;
 
+    // Special Elements (can contain anything)
+    var isPlainTextElement = makeMap('script,style,textarea', true);
+    var reCache = {};
+    /**
+     * Make a map and return a function for checking if a key
+     * is in that map.
+     */
+    function makeMap (
+        str,
+        expectsLowerCase
+    ) {
+        var map = Object.create(null);
+        var list = str.split(',');
+        for (var i = 0; i < list.length; i++) {
+            map[list[i]] = true;
+        }
+        return expectsLowerCase
+            ? function (val) { return map[val.toLowerCase()]; }
+            : function (val) { return map[val]; }
+    }
+
     function parseHTML(html, options) {
-        console.log(html);
+        //console.log(html);
         var stack = [];
         var expectHTML = options.expectHTML; // 编译器内部的选项
         var isUnaryTag$$1 = options.isUnaryTag || no; // 一个标签是否为一元标签
@@ -237,20 +268,125 @@
         var index = 0; // 字符流读入的位置
         var last, lastTag;
 
-        //while(html) {    // <div id='app'>{{message}}</div>
+        while(html) {    // <div id='app'>{{message}}</div>
             last = html;
             if (!lastTag || !isPlainTextElement(lastTag)) {
-                // Start tag:
-                var startTagMatch = parseStartTag();
-                if (startTagMatch) {
-                    handleStartTag(startTagMatch);
-                // if (shouldIgnoreFirstNewline(lastTag, html)) {
-                //     advance(1);
-                // }
-                 //   continue
+                var textEnd = html.indexOf('<');
+                if (textEnd === 0) {
+                    // End tag:
+                    //console.log(endTag);
+                    var endTagMatch = html.match(endTag);
+                   // console.log(endTagMatch);
+                    if (endTagMatch) {
+                        var curIndex = index;
+                        advance(endTagMatch[0].length);
+                        parseEndTag(endTagMatch[1], curIndex, index);
+                        continue;
+                    }
+
+                    // Start tag:
+                    var startTagMatch = parseStartTag();
+                    if (startTagMatch) {
+                        handleStartTag(startTagMatch);
+                    // if (shouldIgnoreFirstNewline(lastTag, html)) {
+                    //     advance(1);
+                    // }
+                        continue;
+                    }
                 }
+                var text = (void 0), rest = (void 0), next = (void 0);
+                if (textEnd >= 0) {
+                    rest = html.slice(textEnd);
+                    while (
+                    !endTag.test(rest) &&
+                    !startTagOpen.test(rest) &&
+                    !comment.test(rest) &&
+                    !conditionalComment.test(rest)
+                    ) {
+                        // < in plain text, be forgiving and treat it as text
+                        next = rest.indexOf('<', 1);
+                       // console.log('next:' + next);
+                        if (next < 0) { break }
+                        textEnd += next;
+                        rest = html.slice(textEnd);
+                    }
+                    text = html.substring(0, textEnd);
+                    advance(textEnd);
+                }
+
+                if (textEnd < 0) {
+                    text = html;
+                    html = '';
+                }
+
+                // 解析文本调用的钩子函数
+                if (options.chars && text) {
+                    options.chars(text);
+                }
+                //console.log(html);
+                
             }
-       // }
+           
+       }
+
+         /*
+        检测非一元标签是否有闭合标签
+        根据浏览器的特征处理<p> <br> 标签
+        */
+       function parseEndTag (tagName, start, end) {
+        var pos, lowerCasedTagName;
+        if (start == null) { start = index; }
+        if (end == null) { end = index; }
+    
+        if (tagName) {
+          lowerCasedTagName = tagName.toLowerCase();
+        }
+    
+        //console.log(stack);
+        // Find the closest opened tag of the same type
+        if (tagName) {
+          for (pos = stack.length - 1; pos >= 0; pos--) {
+            if (stack[pos].lowerCasedTag === lowerCasedTagName) {
+              break
+            }
+          }
+        } else {
+          // If no tag name is provided, clean shop
+          pos = 0;
+        }
+    
+        if (pos >= 0) {
+          // Close all the open elements, up the stack
+          for (var i = stack.length - 1; i >= pos; i--) {
+            if (i > pos || !tagName) 
+            {
+             console.error(
+                ("tag <" + (stack[i].tag) + "> has no matching end tag.")
+              );
+            }
+            if (options.end) {
+              options.end(stack[i].tag, start, end);
+            }
+          }
+    
+          // Remove the open elements from the stack
+          stack.length = pos;
+          lastTag = pos && stack[pos - 1].tag;
+        } else if (lowerCasedTagName === 'br') {
+          if (options.start) { // 调用start钩子函数 
+            options.start(tagName, [], true, start, end);
+          }
+        } else if (lowerCasedTagName === 'p') {
+          if (options.start) { // 调用start钩子函数 创建一个描述对象 DOM P
+            options.start(tagName, [], false, start, end);
+          }
+          if (options.end) {
+            options.end(tagName, start, end);
+          }
+        }
+      }
+
+
        function advance (n) {
             index += n;
             html = html.substring(n);
@@ -267,7 +403,7 @@
             var attrs = new Array(l);
             for (var i = 0; i < l; i++) {
                 var args = match.attrs[i];
-                console.log(args);
+                //console.log(args);
                 var value = args[3] || args[4] || args[5] || '';
                 attrs[i] = {
                     name: args[1],
@@ -281,7 +417,7 @@
                 lastTag = tagName;
               }
           
-            if (options.start) {
+            if (options.start) {    // 创建描述对象 {} DOM节点 HTML字符串 子父级关系
             options.start(tagName, attrs, unary, match.start, match.end);
             }
     }
@@ -298,35 +434,211 @@
                 };
             }
             advance(start[0].length);
-            console.log(html);
+            //console.log(html);
             var end, attr; // 非一元标签
             while (!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
                 advance(attr[0].length);
                 match.attrs.push(attr);
-                console.log(html);
+               // console.log(html);
             }
             if (end) {
                 match.unarySlash = end[1]; // unarySlash "" 非一元标签 "/" 一元标签
                 advance(end[0].length);
                 match.end = index;
-                console.log(html);
+                //console.log(html);
                 return match
             }
         }
 
     }
 
+    var platformGetTagNamespace;
+    
+    function createASTElement (
+        tag,
+        attrs,
+        parent
+    ) {
+        return {
+        type: 1,  // type:1 元素节点, type: 2 文本节点
+        tag: tag, 
+        attrsList: attrs, // [{name: "id", value: "app"}]
+        attrsMap: makeAttrsMap(attrs), // {id: "app"}
+        parent: parent,
+        children: [] // 当前元素的子节点，元素节点和文本节点
+        }
+    }
+  
+    function makeAttrsMap (attrs) {
+        var map = {};
+        for (var i = 0, l = attrs.length; i < l; i++) {
+        if (
+            "development" !== 'production' &&
+            map[attrs[i].name] && !isIE && !isEdge
+        ) {
+            warn$2('duplicate attribute: ' + attrs[i].name);
+        }
+        map[attrs[i].name] = attrs[i].value;
+        }
+        return map
+    }
+
+  
+    function platformGetTagNamespace() {}
+
+    function isForbiddenTag (el) { // Element <script type="text/x-template"><script>
+        return (
+          el.tag === 'style' ||
+          (el.tag === 'script' && (
+            !el.attrsMap.type ||
+            el.attrsMap.type === 'text/javascript'
+          ))
+        )
+      }
+    
     // 编译html  入口函数
     function parse(template) {
-        //console.log(template);
+        
+        var currentParent;
+        var root;
+        var stack = [];
+
         parseHTML(template, {
-            start: function(){
-                // AST 构建子父级关系
-                console.log("解析开始标签调用的钩子函数");
+            start: function start (tag, attrs, unary) {
+                //console.log(attrs);
+                // check namespace.
+                // inherit parent ns if there is one
+                var ns = (currentParent && currentParent.ns) || platformGetTagNamespace(tag);
+          
+                // handle IE svg bug
+                /* istanbul ignore if */
+                if (isIE && ns === 'svg') {
+                  attrs = guardIESVGBug(attrs);
+                }
+          
+                var element = createASTElement(tag, attrs, currentParent);
+                console.log(element);
+                if (ns) {
+                  element.ns = ns;
+                }
+          
+                if (isForbiddenTag(element) && !isServerRendering()) {
+                  element.forbidden = true;
+                  "development" !== 'production' && warn$2(
+                    'Templates should only be responsible for mapping the state to the ' +
+                    'UI. Avoid placing tags with side-effects in your templates, such as ' +
+                    "<" + tag + ">" + ', as they will not be parsed.'
+                  );
+                }
+          
+                // apply pre-transforms 静态和非静态的属性绑定 || 样式的绑定
+                // for (var i = 0; i < preTransforms.length; i++) {
+                //   element = preTransforms[i](element, options) || element;
+                // }
+          
+                // 解析指令 v-if v-for once
+                // if (!inVPre) {
+                //   processPre(element);
+                //   if (element.pre) {
+                //     inVPre = true;
+                //   }
+                // }
+                // if (platformIsPreTag(element.tag)) {
+                //   inPre = true;
+                // }
+                // if (inVPre) {
+                //   processRawAttrs(element);
+                // } else if (!element.processed) {
+                //   // structural directives
+                //   processFor(element);
+                //   processIf(element);
+                //   processOnce(element);
+                //   // element-scope stuff
+                //   processElement(element, options);
+                // }
+          
+                function checkRootConstraints (el) {
+                  {
+                    if (el.tag === 'slot' || el.tag === 'template') {
+                      warnOnce(
+                        "Cannot use <" + (el.tag) + "> as component root element because it may " +
+                        'contain multiple nodes.'
+                      );
+                    }
+                    if (el.attrsMap.hasOwnProperty('v-for')) {
+                      warnOnce(
+                        'Cannot use v-for on stateful component root element because ' +
+                        'it renders multiple elements.'
+                      );
+                    }
+                  }
+                }
+          
+                // tree management
+                if (!root) {
+                  root = element;
+                  checkRootConstraints(root);
+                } else if (!stack.length) {
+                  // allow root elements with v-if, v-else-if and v-else
+                  if (root.if && (element.elseif || element.else)) {
+                    checkRootConstraints(element);
+                    addIfCondition(root, {
+                      exp: element.elseif,
+                      block: element
+                    });
+                  } else {
+                    warnOnce(
+                      "Component template should contain exactly one root element. " +
+                      "If you are using v-if on multiple elements, " +
+                      "use v-else-if to chain them instead."
+                    );
+                  }
+                }
+                if (currentParent && !element.forbidden) {
+                  if (element.elseif || element.else) {
+                    processIfConditions(element, currentParent);
+                  } else if (element.slotScope) { // scoped slot
+                    currentParent.plain = false;
+                    var name = element.slotTarget || '"default"';(currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element;
+                  } else {
+                    currentParent.children.push(element);
+                    element.parent = currentParent;
+                  }
+                }
+                if (!unary) {
+                  currentParent = element;  // 根节点的描述对象
+                  stack.push(element);      // 在对象中构建元素节点的子父级关系
+                } else {
+                  //endPre(element);
+                }
+                // // apply post-transforms
+                // for (var i$1 = 0; i$1 < postTransforms.length; i$1++) {
+                //   postTransforms[i$1](element, options);
+                // }
+              },
+            end: function(){
+                 // remove trailing whitespace
+                var element = stack[stack.length - 1];
+                var lastNode = element.children[element.children.length - 1];
+                // type: 3 静态文本节点 
+                if (lastNode && lastNode.type === 3 && lastNode.text === ' ' && !inPre) {
+                    element.children.pop();
+                }
+                // pop stack
+                stack.length -= 1;
+                currentParent = stack[stack.length - 1];
+                //endPre(element);
             },
-            end: function(){},
-            chars: function(){},
-            comment: function(){}
+            chars: function(text){
+                var children = currentParent.children;
+                if (text !== ' ') {
+                    children.push({
+                      type: 3,
+                      text: text
+                    });
+                }
+            },
+            comment: function(text){}
         });
 
     }
