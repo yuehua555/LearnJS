@@ -43,3 +43,44 @@
 .rgba li:nth-child(3) {background-color: rgba(255, 0, 0, 0.6);}
 .rgba li:nth-child(4) {background-color: rgba(255, 0, 0, 0.4);}
 .rgba li:nth-child(5) {background-color: rgba(255, 0, 0, 0.2);}
+
+body{
+    background-color: #ddd;
+}
+#main{
+    margin: 100px auto;
+    width: 800px;
+    clear: both;
+}
+#main li{
+    background-color: #FFF;
+    list-style: none;
+    width: 240px;
+    padding: 1px;
+    border: 1px solid rgba(255, 0, 0, 0);
+    cursor: pointer;
+    float: left;
+    margin: 3px;
+}
+#main li:hover{
+    border: 1px solid rgba(255, 0, 0, 1);
+
+}
+#main li:hover .img img{
+    opacity: 0.7;
+}
+.img img{
+    width: 240px;
+    transition: all .6s;
+}
+.goods_title{
+    margin: 10px;
+    color: #666;
+    height: 35px;
+    overflow: hidden;
+}
+.price{
+    margin: 10px;
+    color:#F00;
+
+}

@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-01 20:47:42
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-09 16:43:41
+ * @LastEditTime: 2020-08-10 22:56:59
  * @FilePath: \LearnJS\vue\compile.js
  */ 
 (function(root){
@@ -214,10 +214,11 @@
         options
       ) {
         var ast = parse(template.trim(), options);
+       // console.log(ast);
         if (options.optimize !== false) {
           optimize(ast, options);
         }
-        var code = generate(ast, options);
+        var code = generate(ast, options); // 不同平台生成不同的code
         return {
           ast: ast,
           render: "",
@@ -452,6 +453,10 @@
 
     }
 
+    function baseWarn (msg) {
+        console.error(("[Vue compiler]: " + msg));
+    }
+
     var platformGetTagNamespace;
     
     function createASTElement (
@@ -517,7 +522,7 @@
                 }
           
                 var element = createASTElement(tag, attrs, currentParent);
-                console.log(element);
+                //console.log(element);
                 if (ns) {
                   element.ns = ns;
                 }
@@ -640,7 +645,7 @@
             },
             comment: function(text){}
         });
-
+        return root;
     }
 
     // DIFF优化
@@ -648,10 +653,128 @@
 
     }
 
-    //生成目标平台所需的代码
-    function generate(){
-
+    function genProps (props) {
+        var res = '';
+        for (var i = 0; i < props.length; i++) {
+          var prop = props[i];
+          res += "\"" + (prop.name) + "\":" + (transformSpecialNewlines(prop.value)) + ",";
+        }
+        return res.slice(0, -1)
     }
+      
+    
+    // #3895, #4268
+    function transformSpecialNewlines (text) {
+        return text
+        .replace(/\u2028/g, '\\u2028')  // 换行符 
+        .replace(/\u2029/g, '\\u2029')
+    }
+    
+    function genChildren (
+        el,
+        state,
+        checkSkip,
+        altGenElement,
+        altGenNode
+      ) {
+        var children = el.children;
+        // 归一化处理
+       
+        return ("[" + (children.map(function (c) { return genNode(c, state); })
+        .join(',')) + "]" );
+      }
+
+    function genNode (node, state) {
+        if (node.type === 1) {
+          return genElement(node, state)
+        } if (node.type === 3 && node.isComment) {
+          return genComment(node)
+        } else {
+          return genText(node)
+        }
+     }
+
+     function genText (text) {
+        return ("_v(" + (text.type === 2
+          ? text.expression // no need for () because already wrapped in _s()
+          : transformSpecialNewlines(JSON.stringify(text.text))) + ")")
+      }
+      
+      function genComment (comment) {
+        return ("_e(" + (JSON.stringify(comment.text)) + ")")
+      }
+      
+    function genData$2 (el, state) {
+
+        var data = '{';
+
+        // attributes
+        if (el.attrsList) {
+            data += "attrs:{" + (genProps(el.attrsList)) + "},";
+        }
+        data = data.replace(/,$/, '') + '}';
+        //console.log(data);
+        return data;
+    }
+
+    // 递归的形式调用
+    function genElement (el, state) {
+        if (el.staticRoot && !el.staticProcessed) {
+          return genStatic(el, state)
+        } else if (el.once && !el.onceProcessed) {
+          return genOnce(el, state)
+        } else if (el.for && !el.forProcessed) {
+          return genFor(el, state)
+        } else if (el.if && !el.ifProcessed) {
+          return genIf(el, state)
+        } else if (el.tag === 'template' && !el.slotTarget) {
+          return genChildren(el, state) || 'void 0'
+        } else if (el.tag === 'slot') {
+          return genSlot(el, state)
+        } else {
+          // component or element
+          var code;
+          if (el.component) {
+            code = genComponent(el.component, el, state);
+          } else {
+            var data = el.plain ? undefined : genData$2(el, state);
+            
+            // _c(根节点， {属性|指令相关的信息}， [子节点信息]);
+            // 技术活  体力活  技术活
+            var children = el.inlineTemplate ? null : genChildren(el, state, true);
+            code = "_c('" + (el.tag) + "'" + (data ? ("," + data) : '') + (children ? ("," + children) : '') + ")";
+          }
+         
+          console.log(code);
+          return code
+        }
+      }
+
+    var CodegenState = function CodegenState (options) {
+        this.options = options;
+        this.warn = options.warn || baseWarn;
+        // this.transforms = pluckModuleFunction(options.modules, 'transformCode');
+        // this.dataGenFns = pluckModuleFunction(options.modules, 'genData');
+        // this.directives = extend(extend({}, baseDirectives), options.directives);
+        var isReservedTag = options.isReservedTag || no;
+        this.maybeComponent = function (el) { return !isReservedTag(el.tag); };
+        this.onceId = 0;
+        this.staticRenderFns = [];
+        this.pre = false; // v-pre
+    };
+  
+    //生成目标平台所需的代码
+    function generate (
+        ast,
+        options
+      ) {
+        var state = new CodegenState(options);
+        var code = ast ? genElement(ast, state) : '_c("div")';
+        return {
+          render: ("with(this){return " + code + "}"),
+          staticRenderFns: state.staticRenderFns
+        }
+      }
     
 
     var ref$1 = createCompiler(baseOptions);
