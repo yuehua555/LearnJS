@@ -1,0 +1,37 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-04 19:59:17
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-08-12 15:25:20
+ * @FilePath: \LearnJS\webMingJiao\01\demo.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>demo01</title>
+</head>
+<body>
+   <script>
+       var obj = { count: 1};
+       /*
+       obj.count 访问
+       obj.count = 2; 重新赋值
+       */
+      console.log('count:' + obj.count);
+
+      // Vue data 数据侦测 访问 依赖收集 重置了值 通知观察者更新视图
+      var value;
+      Object.defineProperty(obj, 'count', {
+          get: function(){ // 钩子函数 访问器函数
+              return value;
+          },
+          set: function(newVal){
+              value = newVal;
+          }
+      });
+      obj.count = 3;
+      console.log(obj.count);
+   </script>
+ </div>
+</body>
+</html>
