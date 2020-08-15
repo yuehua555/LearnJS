@@ -1,0 +1,43 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-04 19:59:17
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-08-15 17:52:50
+ * @FilePath: \LearnJS\webMingJiao\02\demo.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>demo02</title>
+</head>
+<body>
+   <script>
+     var methods = [
+         'push',
+         'pop',
+         'shift',
+         'unshif',
+         'splice',
+         'sort',
+         'reverse'
+     ];
+
+     const arrayMethods = Object.create(Array.prototype);
+     const arrayProto = Array.prototype;
+
+     methods.forEach(function(method){
+         arrayMethods[method] = function() {
+            const result = arrayProto[method].apply(this, arguments);
+            console.log('拦截' + method + '操作');
+            return result;
+         };
+     });
+
+     const arr = [1,2,3,4];
+     arr.__proto__ = arrayMethods;
+     arr.push(5);
+     console.log(arr.__proto__);
+   </script>
+ </div>
+</body>
+</html>
