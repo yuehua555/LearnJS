@@ -1,0 +1,13 @@
+.ceng{
+    width: 100px;
+    height: 100px;
+    background-color: pink;
+    cursor: pointer;
+    transition-duration: 3s;
+    transition-property: all;
+    transition-delay: 0.2s;
+    transition-timing-function: step-end;
+}
+.ceng:hover{
+    width: 300px;
+}

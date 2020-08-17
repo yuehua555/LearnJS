@@ -1,0 +1,50 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    font-family: "Microsoft YaHei";
+}
+.main{
+    margin: 10px auto;
+    width: 460px;
+    height: 500px;
+    border: 1px solid #ccc;
+    text-align: center;
+    cursor: pointer;
+
+}
+.main li{
+    list-style: none;
+
+}
+.m_title{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px;
+}
+.m_content{
+    color: #666;
+    margin-bottom: 15px;
+}
+.m_image{
+    position: relative;
+    padding: 30px;
+}
+.m_image::before{
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: blue;
+    border-radius: 50%;
+    z-index: -1;
+    left: 80px;
+    top:10px;
+}
+.m_image img{
+    transform: scale(1);
+    transition: all .5s;
+}
+.main li::hover .m_image img{
+    transform: scale(2);
+
+}
