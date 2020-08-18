@@ -1,0 +1,16 @@
+.rect{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: fixed;
+    animation: mymove 3s infinite;
+}
+
+@keyframes mymove{
+    0% { top: 0; left: 20%; background-color: red;}
+    25% { top: 0; left: 80%; background-color: blue;}
+    50% { top: 80%; left: 80%; background-color: green; }
+    75% { top: 80%; left: 20%; background-color: black;}
+    100% { top: 0; left: 20%; background-color: red;}
+
+}
