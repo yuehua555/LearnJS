@@ -1,14 +1,7 @@
-/*
- * @Author: George Wu
- * @Date: 2020-08-23 22:48:27
- * @LastEditors: George Wu
- * @LastEditTime: 2020-08-24 15:29:33
- * @FilePath: \es6test\src\index.js
- */
-let a = "George Wu";
-
-{
-    let a = "wuyuehua";
-}
-
+const [a,b,c,d,e,f] = 'JSPang';
 console.log(a);
+console.log(b);
+console.log(c);
+console.log(d);
+console.log(e);
+console.log(f);
