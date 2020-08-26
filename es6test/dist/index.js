@@ -1,19 +1,57 @@
-'use strict';
+"use strict";
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+/*
+ * @Author: George Wu
+ * @Date: 2020-08-23 22:48:27
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-08-25 16:02:28
+ * @FilePath: \es6test\src\index.js
+ */
+// function jspang(...arg) {
+//     console.log(arg[0]);
+//     console.log(arg[1]);
+//     console.log(arg[2]);
+//     console.log(arg[3]);
+// }
+// jspang(1,2,3);
 
-var _JSPang = 'JSPang',
-    _JSPang2 = _slicedToArray(_JSPang, 6),
-    a = _JSPang2[0],
-    b = _JSPang2[1],
-    c = _JSPang2[2],
-    d = _JSPang2[3],
-    e = _JSPang2[4],
-    f = _JSPang2[5];
+// let arr1 = ['wwww', 'jspang', 'com'];
+// let arr2 = [...arr1];
+// console.log(arr2);
+// arr2.push('George');
+// console.log(arr1);
+// console.log(arr2);
 
-console.log(a);
-console.log(b);
-console.log(c);
-console.log(d);
-console.log(e);
-console.log(f);
+// rest ...
+function george(first) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+    }
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var i = _step.value;
+
+            console.log(i);
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+}
+
+george(0, 1, 2, 3, 4, 5, 6, 7);
