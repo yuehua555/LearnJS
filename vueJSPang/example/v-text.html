@@ -1,0 +1,33 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-08-27 22:06:13
+ * @FilePath: \vueJSPang\example\v-text.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-text & v-html</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+       <span>{{message}}</span>=<span v-text="message"></span><br/>
+       <span v-html="dodo"></span>
+    </div>
+
+    <script type="text/javascript">
+        let app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                dodo: `<h1>Hello Vue!</h1>`
+            }
+        });
+    </script>
+
+</body>
+</html>
