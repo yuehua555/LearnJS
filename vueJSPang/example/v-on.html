@@ -1,0 +1,50 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-08-28 14:34:40
+ * @FilePath: \vueJSPang\example\v-on.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-on</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>v-on!</h1>
+    <hr>
+    <div id="app">
+        本场比赛得分：{{score}}
+        <p>
+            <button v-on:click="add">加分</button>
+            <button @click="minus">减分</button></br>
+            <input type="text" v-on:keyup.enter="onEnter" v-model="count">
+        </p>
+    </div>
+
+    <script type="text/javascript">
+        let app = new Vue({
+            el: '#app',
+            data: {
+                score: 0,
+                count: 0
+            },
+            methods: {
+                add: function(){
+                    this.score++;
+                },
+                minus: function(){
+                    this.score--;
+                },
+                onEnter: function () {
+                    this.score += parseInt(this.count);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
