@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 17:15:34
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-28 22:28:15
+ * @LastEditTime: 2020-08-29 22:12:49
  * @FilePath: \jQuery\jQuery-3.5.1.js
  */
 (function (global, factory) {
@@ -61,6 +61,7 @@
 		var length = arguments.length;
 		var deep;
 		var copy, src;
+		var clone;
 
 		// $.extend({}, def, options); 确定按照原有的逻辑给target 扩展
 		if (typeof target === 'boolean') {
@@ -68,7 +69,7 @@
 			target = arguments[1] || {};
 		}
 
-		//  第一个参数 并且为对象
+		//  第一个或第二个（如果第一个为布尔值）参数 并且为对象
 		if (typeof target !=='object' && !isFunction(target)) {
 			target = {};
 		}
@@ -82,7 +83,37 @@
 			if(((option = arguments[i]) != null)) { // undefined
 				for (name in option) {
 					//console.log(name);
-					target[name] = option[name];
+					copy = option[name];  // 遍历的对象属性值
+					src = target[name];   // 扩展的对象属性值
+					if (deep && ( jQuery.isPlaninObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+						if (copyIsArray) {
+							// copy 是一个数组
+							clone = src && jQuery.isArray(src) ? src : [];
+							copyIsArray = false;
+						} else {
+							// copy 是一个对象
+							clone = src && jQuery.isPlaninObject(src) ? src : {};	
+						} 
+						// 浅拷贝
+						target[name] = jQuery.extend(deep, clone, copy);
+					} else if (copy !== undefined) {
+						//console.log(target);
+						if (toString.call(target) === '[object Array]') {
+							//target[name] = copy;
+							// console.log('src = ' + src);
+							// console.log(target);
+							// console.log(name);
+							// console.log(copy);
+							//target[name] = copy;
+							if (src !== copy) {
+								target.push(copy);
+							}
+							
+						} else {
+							target[name] = copy;
+						}
+										
+					}
 				}
 
 			}
@@ -92,6 +123,15 @@
 		
 	}
 	
+	jQuery.extend({
+		isPlaninObject: function (obj) {
+			return toString.call(obj) === '[object Object]';
+		},
+		isArray: function (obj) {
+			return toString.call(obj) === '[object Array]';
+		}
+	});
+
 	// commonjs 规定模块长什么样子
 	// requirejs seajs 模块加载器的工具
 	if ( typeof define === "function" && define.amd ) {

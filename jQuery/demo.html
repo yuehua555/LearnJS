@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 17:15:42
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-28 21:49:35
+ * @LastEditTime: 2020-08-29 22:12:01
  * @FilePath: \jQuery\demo.html
 -->
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
     <title>jQuery</title>
 </head>
 <body>
-    <script src="./jquery-3.5.1.js"></script>
+    <script src="./jQuery-3.5.1.js"></script>
     <script>
         // //$.fn.extend 给jQuery实例对象扩展，jQuery.init 的原型对象
         // $.fn.extend({
@@ -36,7 +36,8 @@
             list:{
                 a: 1,
                 b: 2
-            }
+            },
+            arr: [15,18]
         };
         var res = {   // 用户配置对象
             age: 30,
@@ -44,7 +45,8 @@
             list: {
                 c: 3,
                 d: 4
-            }
+            },
+            arr: [8, 9]
         };
 
         // 浅拷贝 插件 以默认配置为优先，以用户配置为覆盖
