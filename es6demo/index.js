@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-28 15:04:56
+ * @LastEditTime: 2020-08-29 22:41:10
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -54,14 +54,49 @@ console.log(Number.MIN_SAFE_INTEGER);
 // let arr = Array.from(json);
 // console.log(arr);
 
-// Array.of method
-let str = '1,2,3,4';
-let arr = Array.of(1,2,3,4);
+// // Array.of method
+// let str = '1,2,3,4';
+// let arr = Array.of(1,2,3,4);
+// console.log(arr);
+
+// // find 数组的实列方法
+// let arr1 = [1,2,3,4,5,6,7,8,9];
+
+// console.log(arr1.find(function(value, index, arr1){
+//     return value > 5;
+// }));
+
+// fill
+let arr = ['jspang', '技术胖', 'George'];
+let [...arr1] = arr;
+arr1.fill('web', 1, 2);
+console.log(arr1);
 console.log(arr);
 
-// find 数组的实列方法
-let arr1 = [1,2,3,4,5,6,7,8,9];
+// 数组循环
+for (let value of arr) {
+    console.log(value);
+}
 
-console.log(arr1.find(function(value, index, arr1){
-    return value > 5;
-}));
+for (let key of arr.keys()) {
+    console.log(key);
+}
+
+for (let item of arr.entries()) {
+    console.log(item);
+}
+
+for (let [index, val] of arr.entries()) {
+    console.log(index + ':' + val);
+}
+
+// entries
+let list = arr.entries();
+
+
+console.log(list.next().value);
+console.log('---------------');
+console.log(list.next().value);
+console.log('***************');
+console.log(list.next().value);
+console.log('666666666666666');
