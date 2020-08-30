@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-29 22:41:10
+ * @LastEditTime: 2020-08-30 21:15:22
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -66,37 +66,15 @@ console.log(Number.MIN_SAFE_INTEGER);
 //     return value > 5;
 // }));
 
-// fill
-let arr = ['jspang', '技术胖', 'George'];
-let [...arr1] = arr;
-arr1.fill('web', 1, 2);
-console.log(arr1);
-console.log(arr);
+// 
 
-// 数组循环
-for (let value of arr) {
-    console.log(value);
-}
+// function add(a, b=1) {
+//     return a + b;
+// }
+// console.log(add.length);
 
-for (let key of arr.keys()) {
-    console.log(key);
-}
-
-for (let item of arr.entries()) {
-    console.log(item);
-}
-
-for (let [index, val] of arr.entries()) {
-    console.log(index + ':' + val);
-}
-
-// entries
-let list = arr.entries();
-
-
-console.log(list.next().value);
-console.log('---------------');
-console.log(list.next().value);
-console.log('***************');
-console.log(list.next().value);
-console.log('666666666666666');
+var add = (a, b=1) => { 
+    console.log('jspang');
+    return a+b; 
+};
+console.log(add(1));
