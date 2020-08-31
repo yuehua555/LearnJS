@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 17:15:42
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-30 17:30:39
+ * @LastEditTime: 2020-08-31 14:57:55
  * @FilePath: \Callbacks\demo.html
 -->
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
     <script src="./jQuery-3.5.1.js"></script>
     <script>
         
-        var container = jQuery.Callbacks('stopOnFalse'); // once stopOnFalse memory 
+        var container = jQuery.Callbacks('memory once'); // once stopOnFalse memory 
 
         container.add(function(){
             console.log(1);
@@ -31,6 +31,12 @@
         
         container.add(function(){
             console.log(3);
+        });
+
+        container.fire();
+
+        container.add(function(){
+            console.log(4);
         });
 
 

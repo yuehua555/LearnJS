@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 17:15:34
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-30 17:28:10
+ * @LastEditTime: 2020-08-31 14:57:04
  * @FilePath: \Callbacks\jQuery-3.5.1.js
  */
 (function (global, factory) {
@@ -139,28 +139,42 @@
 		options = typeof options === 'string' ? (optionsCache[options] || createOptions(options)) : {};
 		var list = [];
 		var index, length, testings;
+		var start, original;
+		var memory;
 
 		var fire = function(data) {
+
+		    memory = options.memory && data;
+
+			index = start || 0;
+			start = 0;
 			testings = true;
 			length = list.length;
-			for (index = 0; index < length; index++) {{
+			for (; index < length; index++) {{
 				//console.log(data[0]);
 				if (list[index].apply(data[0], data[1]) === false && options.stopOnFalse) { // ==隐式转化
 					break;
 				}
 			}}
+
 		}
 
 		var self = {
 			add: function(){
 				// arguments 类数组 -> 转化成数组对象 forEach
 				var args = [].slice.call(arguments);
+				original = list.length;
 				args.forEach(function(fun) {
 					//console.log(fun);
 					if (isFunction(fun) && list.indexOf(fun) === -1) {
 						list.push(fun);
 					}
 				});
+				
+				if (memory) {
+					start = original;
+					fire(memory);
+				}
 			},
 			// 给所有的回调函数传参 
 			fire: function(){
