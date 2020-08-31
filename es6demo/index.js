@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-30 21:15:22
+ * @LastEditTime: 2020-08-31 16:48:33
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -73,8 +73,45 @@ console.log(Number.MIN_SAFE_INTEGER);
 // }
 // console.log(add.length);
 
-var add = (a, b=1) => { 
-    console.log('jspang');
-    return a+b; 
+// var add = (a, b=1) => { 
+//     console.log('jspang');
+//     return a+b; 
+// };
+// console.log(add(1));
+
+// 对象的函数结构 JSON
+let json = {
+    a: 'jspang',
+    b: '技术胖'
 };
-console.log(add(1));
+function fn1 ({a, b='web'}) {
+    console.log(a,b)
+}
+fn1(json);
+
+// 数组结构
+let arr = ['jspang', '技术胖', '前端教程'];
+function fn2(a, b, c) {
+    console.log(a, b, c);
+}
+fn2(...arr);
+
+// in 的用法
+let obj = {
+    a: 'jspang',
+    b: '技术胖'
+};
+console.log('a' in obj);
+
+let arr2 = [,,,];
+console.log(1 in arr2);
+
+// 数组遍历 forEach filter some
+let arr3 = ['jspang', '技术胖', 'George Wu'];
+arr3.forEach((value, index) => console.log(index, value));
+arr3.filter(x => console.log(x));
+arr3.some(x => console.log(x));
+console.log(arr3.map(x => 'web'));
+
+console.log(arr3.toString());
+console.log(arr3.join('|'));
