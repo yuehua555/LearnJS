@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-31 16:48:33
+ * @LastEditTime: 2020-09-01 22:49:08
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -79,39 +79,80 @@ console.log(Number.MIN_SAFE_INTEGER);
 // };
 // console.log(add(1));
 
-// 对象的函数结构 JSON
-let json = {
-    a: 'jspang',
-    b: '技术胖'
-};
-function fn1 ({a, b='web'}) {
-    console.log(a,b)
+// // 对象的函数结构 JSON
+// let json = {
+//     a: 'jspang',
+//     b: '技术胖'
+// };
+// function fn1 ({a, b='web'}) {
+//     console.log(a,b)
+// }
+// fn1(json);
+
+// // 数组结构
+// let arr = ['jspang', '技术胖', '前端教程'];
+// function fn2(a, b, c) {
+//     console.log(a, b, c);
+// }
+// fn2(...arr);
+
+// // in 的用法
+// let obj = {
+//     a: 'jspang',
+//     b: '技术胖'
+// };
+// console.log('a' in obj);
+
+// let arr2 = [,,,];
+// console.log(1 in arr2);
+
+// // 数组遍历 forEach filter some
+// let arr3 = ['jspang', '技术胖', 'George Wu'];
+// arr3.forEach((value, index) => console.log(index, value));
+// arr3.filter(x => console.log(x));
+// arr3.some(x => console.log(x));
+// console.log(arr3.map(x => 'web'));
+
+// console.log(arr3.toString());
+// console.log(arr3.join('|'));
+
+let name = 'jspang';
+let skill = 'web';
+let obj = {name, skill};
+console.log(obj);
+
+// key值的构建
+let key = 'skill';
+let obj1 = {
+    [key]: 'web'
 }
-fn1(json);
+console.log(obj1);
 
-// 数组结构
-let arr = ['jspang', '技术胖', '前端教程'];
-function fn2(a, b, c) {
-    console.log(a, b, c);
-}
-fn2(...arr);
-
-// in 的用法
-let obj = {
-    a: 'jspang',
-    b: '技术胖'
+// 自定义对象的方法
+let obj2 = {
+    add: function(a, b) {
+        return a+b;
+    }
 };
-console.log('a' in obj);
+console.log(obj2.add(1, 2));
 
-let arr2 = [,,,];
-console.log(1 in arr2);
+// is()
+let obj3 = {name: 'jspang'};
+let obj4 = {name: 'jspang'};
+console.log(obj3.name === obj4.name);
+console.log(Object.is(obj3.name, obj4.name));
 
-// 数组遍历 forEach filter some
-let arr3 = ['jspang', '技术胖', 'George Wu'];
-arr3.forEach((value, index) => console.log(index, value));
-arr3.filter(x => console.log(x));
-arr3.some(x => console.log(x));
-console.log(arr3.map(x => 'web'));
+console.log(+0===-0);
+console.log(NaN===NaN);
 
-console.log(arr3.toString());
-console.log(arr3.join('|'));
+console.log(Object.is(+0, -0));
+console.log(Object.is(NaN, NaN));
+
+// assign
+let a = {a: 'jspang'};
+let b = {b: '技术胖'};
+let c = {c: 'web'};
+let d = Object.assign(a, b, c);
+console.log(d);
+
+
