@@ -1,0 +1,84 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-26 17:15:42
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-01 21:25:02
+ * @FilePath: \deferred\demo.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery</title>
+</head>
+<body>
+    <script src="./jQuery-3.5.1.js"></script>
+    <script>
+       // deferred 延迟函数 promise的社区版本实现
+       //console.log(jQuery.Deferred);
+      function wait() {
+          let def = jQuery.Deferred();
+          //console.log(def);
+          def.resolve('...');
+          //def.reject();
+          return def.promise();
+      }
+    //   // 并行执行一个或者多个的异步任务 promise.done
+    //   $.when(wait()).done(function() {
+    //       console.log('state done');
+    //   }).fail(function() {
+    //       console.log('state fail');
+    //   }).done(function() {
+
+    //   }).fail(function(){
+    //       console.log('error promise');
+    //   });
+
+    $.when(wait()).then(function(text){
+        console.log('state done' + text);
+        let def = jQuery.Deferred();
+        def.resolve();
+        return def;
+    }).then(function(){
+        console.log('state success')
+    },function(){
+        console.log('state fail')
+    });
+
+
+    	//newDef.resolve()
+
+			//then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数。
+			
+			/*
+			let returned = fn && fn.apply(this, arguments);
+			
+			returned   新的deferred对象的引用
+			
+			
+			$.when(wait()).then(function(text) {
+				//...
+			})
+			
+			源码：
+			jQuery.Deferred(function(newDef) { //构建一个全新的deferred对象
+				//...
+			}).promise();
+			
+			//创建一个新的deferred对象
+			
+			
+			.then(function() {
+				console.log("state success");
+			}, function() {
+				console.log("state fail");
+			});
+			
+			
+			newDef
+			
+			*/
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-28 20:30:05
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-08-28 21:05:29
+ * @FilePath: \jQuery\src\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./jQuery-3.5.1.js"></script>
+    <script>
+        // $.fn.extend 给jQuery实例对象扩展，jQuery.init 的原型对象
+        $.fn.extend({
+            ref: function(){
+                console.log("hello jQuery!");
+            }
+        });
+        //$().ref();
+
+        // $.extend 给jQuery对象本身扩展
+        $.extend({
+            count: 1
+        })
+        //console.log($.count);
+
+        // 配置项处理， 给任意对象扩展 参数1： 扩展的对象 参数2及以上： 遍历的对象
+        var def = {      // 默认配置对象
+            name: 'max', 
+            count: 1, 
+            list:{}
+        };
+        var options = {   // 用户配置对象
+            age: 30,
+            count: 2
+        };
+
+        // 浅拷贝 插件 以默认配置为优先，以用户配置为覆盖
+
+        // def       count {}.count = def.count
+        // options   count {}.count = options.count
+        var result = $.extend({}, def, options); // 筛选 最终要使用的配置项信息
+        console.log(result);
+    </script>
+</body>
+</html>
