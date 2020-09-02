@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-09-01 22:49:08
+ * @LastEditTime: 2020-09-02 14:49:34
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -116,43 +116,60 @@ console.log(Number.MIN_SAFE_INTEGER);
 // console.log(arr3.toString());
 // console.log(arr3.join('|'));
 
-let name = 'jspang';
-let skill = 'web';
-let obj = {name, skill};
+// let name = 'jspang';
+// let skill = 'web';
+// let obj = {name, skill};
+// console.log(obj);
+
+// // key值的构建
+// let key = 'skill';
+// let obj1 = {
+//     [key]: 'web'
+// }
+// console.log(obj1);
+
+// // 自定义对象的方法
+// let obj2 = {
+//     add: function(a, b) {
+//         return a+b;
+//     }
+// };
+// console.log(obj2.add(1, 2));
+
+// // is()
+// let obj3 = {name: 'jspang'};
+// let obj4 = {name: 'jspang'};
+// console.log(obj3.name === obj4.name);
+// console.log(Object.is(obj3.name, obj4.name));
+
+// console.log(+0===-0);
+// console.log(NaN===NaN);
+
+// console.log(Object.is(+0, -0));
+// console.log(Object.is(NaN, NaN));
+
+// // assign
+// let a = {a: 'jspang'};
+// let b = {b: '技术胖'};
+// let c = {c: 'web'};
+// let d = Object.assign(a, b, c);
+// console.log(d);
+
+// Symbol
+// let jspang = Symbol();
+// let obj = {
+//     [jspang]: '技术胖'
+// };
+// console.log(obj[jspang]);
+// obj[jspang] = 'web';
+// console.log(obj[jspang]);
+let obj = {name: 'jspang', skill: 'web'};
+let age = Symbol();
+obj[age] = 18;
 console.log(obj);
-
-// key值的构建
-let key = 'skill';
-let obj1 = {
-    [key]: 'web'
+for (let item in obj) {
+    console.log(obj[item]);
 }
-console.log(obj1);
-
-// 自定义对象的方法
-let obj2 = {
-    add: function(a, b) {
-        return a+b;
-    }
-};
-console.log(obj2.add(1, 2));
-
-// is()
-let obj3 = {name: 'jspang'};
-let obj4 = {name: 'jspang'};
-console.log(obj3.name === obj4.name);
-console.log(Object.is(obj3.name, obj4.name));
-
-console.log(+0===-0);
-console.log(NaN===NaN);
-
-console.log(Object.is(+0, -0));
-console.log(Object.is(NaN, NaN));
-
-// assign
-let a = {a: 'jspang'};
-let b = {b: '技术胖'};
-let c = {c: 'web'};
-let d = Object.assign(a, b, c);
-console.log(d);
+console.log(obj[age]);
 
 
