@@ -1,0 +1,53 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-26 17:15:42
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-03 15:35:25
+ * @FilePath: \dom\demo.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery</title>
+</head>
+<body>
+    <div class="box">This is box</div>
+    <script src="./jQuery-3.5.1.js"></script>
+    <script>
+        //console.log($('.box').html('Hello World'));
+        //console.log($(".box").css('color','red'));
+        //console.log($(".box").css(['color','font-size']));
+        console.log($('.box').css({
+            'color': 'blue',
+            'font-size': '30px'
+        }));
+
+
+
+        
+    //    // deferred 延迟函数 promise的社区版本实现
+    //   function wait() {
+    //       let def = jQuery.Deferred();
+    //       def.resolve('...');
+    //       //def.reject('...');
+    //       return def.promise();
+    //   }
+
+    //   function wait1() {
+    //       let def = jQuery.Deferred();
+    //       def.reject('...');
+    //       return def.promise();
+    //   }
+   
+    //   // 并行执行一个或多个异步任务
+    //   $.when(wait(), wait1()). then(function(text){
+    //       console.log('state done' + text);
+    //   }, function(text){
+    //     console.log('state fail' + text);  
+    //   });
+
+    </script>
+</body>
+</html>
