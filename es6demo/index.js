@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-09-02 14:49:34
+ * @LastEditTime: 2020-09-04 14:22:02
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -163,13 +163,34 @@ console.log(Number.MIN_SAFE_INTEGER);
 // console.log(obj[jspang]);
 // obj[jspang] = 'web';
 // console.log(obj[jspang]);
-let obj = {name: 'jspang', skill: 'web'};
-let age = Symbol();
-obj[age] = 18;
-console.log(obj);
-for (let item in obj) {
-    console.log(obj[item]);
+// let obj = {name: 'jspang', skill: 'web'};
+// let age = Symbol();
+// obj[age] = 18;
+// console.log(obj);
+// for (let item in obj) {
+//     console.log(obj[item]);
+// }
+// console.log(obj[age]);
+
+// Set
+let setArr = new Set(['jspang', '技术胖', 'web']);
+setArr.add('前端');
+console.log(setArr);
+console.log(setArr.has('jspang'));
+for (let item of setArr) {
+    console.log(item);
 }
-console.log(obj[age]);
+setArr.forEach((value) => console.log(value));
+console.log(setArr.size);
 
-
+let weakSet = new WeakSet();
+let obj = {
+    a: 'jspang', 
+    b: '技术胖'};
+let obj1 = {
+    a: 'jspang', 
+    b: '技术胖'
+};
+weakSet.add(obj);
+weakSet.add(obj1);
+console.log(weakSet);
