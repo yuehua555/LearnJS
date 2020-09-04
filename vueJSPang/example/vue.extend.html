@@ -1,0 +1,37 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-04 15:21:52
+ * @FilePath: \vueJSPang\example\vue.extend.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue extend 扩展实例构造器</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>vue extend 扩展实例构造器</h1>
+    <hr>
+    <div id="author"></div>
+    <author></author>
+
+    <script type="text/javascript">
+       let authorExtend = Vue.extend({
+           template: "<p><a :href='authorURL'>{{authorName}}</p>",
+           data: function(){
+               return {
+                   authorName: 'jspang',
+                   authorURL: 'https://jspang.com'
+               };
+           }
+       });
+       new authorExtend().$mount('#author');
+       new authorExtend().$mount('author');
+    </script>
+
+</body>
+</html>
