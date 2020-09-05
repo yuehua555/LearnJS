@@ -1,0 +1,25 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-28 20:30:05
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-04 20:52:22
+ * @FilePath: \data\src\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="box" data-options="res">this is a box</div>
+    <script src="./jQuery-3.5.1.js"></script>
+    <script>
+        $('.box').data('foo', 52);
+        console.log($('.box').data());
+        console.log($('.box').data('foo'));
+        console.log($('.box').data('options'));
+    </script>
+</body>
+</html>

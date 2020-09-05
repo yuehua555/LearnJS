@@ -1,0 +1,29 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-26 17:15:42
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-05 11:36:51
+ * @FilePath: \data\demo.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery</title>
+</head>
+<body>
+    <div class="box" data-options-ref="2">This is box</div>
+    <script src="./jQuery-3.5.1.js"></script>
+    <script>
+       $('.box').data('last-value', 1); // 独一无二的标识， 缓存对象
+      
+       console.log($('.box').data('lastValue'));
+       console.log($('.box').data('optionsRef'));
+       console.log($('.box').data());
+
+      
+
+    </script>
+</body>
+</html>
