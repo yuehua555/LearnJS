@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-09-04 14:22:02
+ * @LastEditTime: 2020-09-06 15:28:13
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -172,25 +172,44 @@ console.log(Number.MIN_SAFE_INTEGER);
 // }
 // console.log(obj[age]);
 
-// Set
-let setArr = new Set(['jspang', '技术胖', 'web']);
-setArr.add('前端');
-console.log(setArr);
-console.log(setArr.has('jspang'));
-for (let item of setArr) {
-    console.log(item);
-}
-setArr.forEach((value) => console.log(value));
-console.log(setArr.size);
+// // Set
+// let setArr = new Set(['jspang', '技术胖', 'web']);
+// setArr.add('前端');
+// console.log(setArr);
+// console.log(setArr.has('jspang'));
+// for (let item of setArr) {
+//     console.log(item);
+// }
+// setArr.forEach((value) => console.log(value));
+// console.log(setArr.size);
 
-let weakSet = new WeakSet();
-let obj = {
-    a: 'jspang', 
-    b: '技术胖'};
-let obj1 = {
-    a: 'jspang', 
-    b: '技术胖'
+// let weakSet = new WeakSet();
+// let obj = {
+//     a: 'jspang', 
+//     b: '技术胖'};
+// let obj1 = {
+//     a: 'jspang', 
+//     b: '技术胖'
+// };
+// weakSet.add(obj);
+// weakSet.add(obj1);
+// console.log(weakSet);
+
+// map =>
+let json = {
+    name: 'jspang',
+    skill: 'web'
 };
-weakSet.add(obj);
-weakSet.add(obj1);
-console.log(weakSet);
+console.log(json.name);
+let map = new Map();
+map.set(json, 'iam');
+map.get(json)
+map.set('jspang', json);
+console.log(map);
+// add delete query
+console.log(map.get(json));
+map.delete(json);
+console.log(map);
+console.log(map.size);
+console.log(map.has('jspang1'));
+
