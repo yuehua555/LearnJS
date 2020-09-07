@@ -1,0 +1,39 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-28 20:30:05
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-06 21:40:30
+ * @FilePath: \queue\src\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="box" data-options="res">this is a box</div>
+    <script src="./jquery-3.5.1.js"></script>
+    <script>
+        // queue 队列 （回调函数， 执行动画）  data数据缓存对象
+        $('.box').queue('a', function(next){
+            console.log(1);
+            next()
+        });    // DOM fxqueue => []
+        $('.box').queue('a', function(next){
+            console.log(2);
+            next();
+        });
+        $('.box').queue('a', function(){
+            console.log(3);
+        });
+        
+        console.log($('.box').queue('a'));
+        console.log($('.box').dequeue('a'));
+        //console.log($('.box').queue('a'));
+        //$('.box').dequeue();
+        //console.log($('.box').queue());
+    </script>
+</body>
+</html>

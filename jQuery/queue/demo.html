@@ -1,0 +1,36 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-26 17:15:42
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-07 20:21:36
+ * @FilePath: \queue\demo.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery</title>
+</head>
+<body>
+    <div class="box" data-options-ref="2">This is box</div>
+    <script src="./jQuery-3.5.1.js"></script>
+    <script>
+    //   $('.box').queue('first', function(){
+
+    //   });
+
+   //  $('.box').queue('first'); // firstqueue 有哪些回调函数
+
+     //console.log($('.box').queue()); // fxqueue 默认 有哪些回调函数
+
+    $('.box').queue(function(){
+         console.log(1);
+     }); // fxqueue 默认 添加回调函数 
+     $('.box').queue(function(){
+         console.log(2);
+     });
+     console.log($('.box').queue());
+    </script>
+</body>
+</html>
