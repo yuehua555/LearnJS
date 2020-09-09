@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-09-06 15:28:13
+ * @LastEditTime: 2020-09-09 15:40:25
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -195,21 +195,71 @@ console.log(Number.MIN_SAFE_INTEGER);
 // weakSet.add(obj1);
 // console.log(weakSet);
 
-// map =>
-let json = {
-    name: 'jspang',
-    skill: 'web'
+// // map =>
+// let json = {
+//     name: 'jspang',
+//     skill: 'web'
+// };
+// console.log(json.name);
+// let map = new Map();
+// map.set(json, 'iam');
+// map.get(json)
+// map.set('jspang', json);
+// console.log(map);
+// // add delete query
+// console.log(map.get(json));
+// map.delete(json);
+// console.log(map);
+// console.log(map.size);
+// console.log(map.has('jspang1'));
+
+
+// // proxy 代理 ES6 增强 对象和函数（方法） 生命周期 预处理
+// let obj = {
+//     add: function(val) {
+//         return val + 100;
+//     },
+//     name: 'I am Jspang'
+// };
+// console.log(obj.add(100));
+// console.log(obj.name);
+
+// let proxy = new Proxy({
+//     add: function(val) {
+//         return val + 100;
+//     },
+//     name: 'I am Jspang' 
+// }, {
+//     // get set apply
+//     get: function(target, key, property) {
+//         console.log('come in get');
+//         console.log(target);
+//         return target[key];
+//     },
+//     set: function(target, key, value, receiver){
+//         console.log(` setting ${key} = ${value} `);
+//         return target[key] = value + 0;
+//     }
+// });
+
+// console.log(proxy.name);
+// proxy.name = '技术胖';
+// console.log(proxy.name);
+
+let target = function(){
+    return 'I am JSPang';
 };
-console.log(json.name);
-let map = new Map();
-map.set(json, 'iam');
-map.get(json)
-map.set('jspang', json);
-console.log(map);
-// add delete query
-console.log(map.get(json));
-map.delete(json);
-console.log(map);
-console.log(map.size);
-console.log(map.has('jspang1'));
+let handler = {
+    apply(target, ctx, args) {
+        console.log('do apply');
+        return Reflect.apply(...arguments);
+    }
+};
+
+let proxy = new Proxy(target, handler);
+
+console.log(proxy());
+
+
+
 
