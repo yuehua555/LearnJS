@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 17:15:34
  * @LastEditors: George Wu
- * @LastEditTime: 2020-09-07 20:21:08
+ * @LastEditTime: 2020-09-07 20:30:25
  * @FilePath: \queue\jQuery-3.5.1.js
  */
 (function (global, factory) {
@@ -166,14 +166,9 @@
 			var ret = results || [];
 
 			if ( arr != null ) {
-				if ( isArrayLike( Object( arr ) ) ) {
-					jQuery.merge( ret,
-						typeof arr === "string" ?
-						[ arr ] : arr
-					);
+				if ( isArrayLike( arr ) ) {
+					
 				} else {
-					//console.log(ret, arr);
-					//ret.push(arr);
 					push.call(ret, arr);
 				}
 			}
