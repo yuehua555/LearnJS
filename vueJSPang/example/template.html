@@ -1,0 +1,42 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-11 20:51:59
+ * @FilePath: \vueJSPang\example\template.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <hr>
+    <div id="app">
+        {{message}}
+    </div>
+    <template id="dd2">
+        <h2 style="color: red">我是Template标签模板</h2>
+    </template>
+    <script id="dd3">
+        <h2 style="color: red">我是script标签模板</h2>
+    </script>
+    <script type="text/javascript">
+        let app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            },
+            template: '#dd3'
+            // template: `
+            //     <h2 style="color: red">我是选项模板</h2>
+            // `
+        });
+    </script>
+
+</body>
+</html>
