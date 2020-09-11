@@ -1,0 +1,70 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-09-09 16:07:19
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-09 21:37:39
+ * @FilePath: \RegExp\template.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // 对象扩展
+        function extend() {
+            let target = arguments[0] || {};
+            let length = arguments.length;
+            let i = 1;
+            let options;
+            let key;
+            if (typeof target === 'object') {
+                target = {};
+            }
+
+            for (; i < length; i++) {
+                if((options = arguments[i]) != null) {
+                    for (key in options) {
+                        target[key] = options[key];
+                    }
+                }
+            }
+
+            return target;
+        }
+
+        // 默认解析的规则
+        let RULES = {
+            interpolate: /<%=([\s\S]+?)%>/g,
+            escape: /<%-([\s\S]+?)%>/g,
+            expresstion: /<%([\s\S]+?)%>/g,
+        };
+
+        // 用户自定义模板标识符的风格
+        function template(templateString, settings) {
+            settings = extend({}, RULES, settings);
+            let matcher = new RegExp([
+                settings.interpolate.source,
+                settings.escape.source,
+                settings.expresstion.source
+            ].join('|'), 'g');
+            //console.log(matcher);
+            
+            templateString.replace(matcher, function(match, interpolate, escape, expresstion){
+                console.log(interpolate);
+                console.log(escape);
+                console.log(expresstion);
+            })
+        }
+
+        template('hello {{= message}}',{
+            interpolate: /{{=([\s\S]+?)}}/g
+        });
+    </script>
+    
+</body>
+</html>

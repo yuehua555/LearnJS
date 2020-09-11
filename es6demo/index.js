@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-09-09 15:40:25
+ * @LastEditTime: 2020-09-11 20:24:29
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -246,20 +246,58 @@ console.log(Number.MIN_SAFE_INTEGER);
 // proxy.name = '技术胖';
 // console.log(proxy.name);
 
-let target = function(){
-    return 'I am JSPang';
-};
-let handler = {
-    apply(target, ctx, args) {
-        console.log('do apply');
-        return Reflect.apply(...arguments);
+// let target = function(){
+//     return 'I am JSPang';
+// };
+// let handler = {
+//     apply(target, ctx, args) {
+//         console.log('do apply');
+//         return Reflect.apply(...arguments);
+//     }
+// };
+
+// let proxy = new Proxy(target, handler);
+
+// console.log(proxy());
+
+// promise 1.洗菜做饭 2.坐下吃饭 3.收拾碗筷
+let state = 1;
+
+function step1(resolve, reject) {
+    console.log('1. 开始-洗菜做饭');
+    if (state === 1) {
+        resolve('洗菜做饭-完成');
+    } else {
+        reject('洗菜做饭-出错');
     }
-};
+}
 
-let proxy = new Proxy(target, handler);
+function step2(resolve, reject) {
+    console.log('2. 开始-坐下吃饭');
+    state = 0;
+    if (state === 1) {
+        resolve('坐下吃饭-完成');
+    } else {
+        reject('坐下吃饭-出错');
+    }
+}
 
-console.log(proxy());
+function step3(resolve, reject) {
+    console.log('3. 开始-收拾碗筷');
+    if (state === 1) {
+        resolve('收拾碗筷-完成');
+    } else {
+        reject('收拾碗筷-出错');
+    }
+}
 
-
-
+new Promise(step1).then(function(val){
+    console.log(val);
+    return new Promise(step2);
+}).then(function(val){
+    console.log(val);
+    return new Promise(step3);
+}).then(function(val){
+    console.log(val);
+});
 
