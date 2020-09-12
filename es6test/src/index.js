@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-23 22:48:27
  * @LastEditors: George Wu
- * @LastEditTime: 2020-08-26 16:11:37
+ * @LastEditTime: 2020-09-12 17:23:47
  * @FilePath: \es6test\src\index.js
  */
 // function jspang(...arg) {
@@ -21,10 +21,16 @@
 // console.log(arr2);
 
 // rest ...
-function george(first, ...args){
-    for(let i of args){
-        console.log(i);
-    }
-}
+// function george(first, ...args){
+//     for(let i of args){
+//         console.log(i);
+//     }
+// }
 
-george(0,1,2,3,4,5,6,7);
+// george(0,1,2,3,4,5,6,7);
+
+// export 输出
+// import 引入
+import she from './temp';
+
+console.log(she);
