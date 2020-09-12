@@ -2,7 +2,7 @@
  * @Author: George Wu
  * @Date: 2020-08-26 16:13:14
  * @LastEditors: George Wu
- * @LastEditTime: 2020-09-11 20:24:29
+ * @LastEditTime: 2020-09-12 16:58:50
  * @FilePath: \es6demo\index.js
  */
 /*
@@ -260,44 +260,36 @@ console.log(Number.MIN_SAFE_INTEGER);
 
 // console.log(proxy());
 
-// promise 1.洗菜做饭 2.坐下吃饭 3.收拾碗筷
-let state = 1;
-
-function step1(resolve, reject) {
-    console.log('1. 开始-洗菜做饭');
-    if (state === 1) {
-        resolve('洗菜做饭-完成');
-    } else {
-        reject('洗菜做饭-出错');
+// class
+class Coder {
+    name(val) {
+        console.log(val);
+        return val;
     }
+
+    skill(val) {
+        console.log(this.name('GeorgeWu') + ':' + 'Skill-' + val);
+    }
+
+    constructor(a, b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    add() {
+        return this.a + this.b;
+    }
+} 
+
+let jspang = new Coder(1, 2);
+//jspang.name('GeorgeWu');
+//jspang.skill('web');
+console.log(jspang.add());
+
+class Htmler extends Coder {
+
 }
 
-function step2(resolve, reject) {
-    console.log('2. 开始-坐下吃饭');
-    state = 0;
-    if (state === 1) {
-        resolve('坐下吃饭-完成');
-    } else {
-        reject('坐下吃饭-出错');
-    }
-}
-
-function step3(resolve, reject) {
-    console.log('3. 开始-收拾碗筷');
-    if (state === 1) {
-        resolve('收拾碗筷-完成');
-    } else {
-        reject('收拾碗筷-出错');
-    }
-}
-
-new Promise(step1).then(function(val){
-    console.log(val);
-    return new Promise(step2);
-}).then(function(val){
-    console.log(val);
-    return new Promise(step3);
-}).then(function(val){
-    console.log(val);
-});
-
+let pang = new Htmler;
+pang.name('George');
+ 
