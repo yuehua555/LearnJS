@@ -1,0 +1,61 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-14 21:41:08
+ * @FilePath: \vueJSPang\example\component-4.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>component-4</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>component-4</h1>
+    <hr>
+    <div id="app">
+        <component v-bind:is="who"></component>
+        <button @click="changeComponent">changeComponent</button>
+    </div>
+
+    <script type="text/javascript">
+        let componentA = {
+            template: `<div style="color:red;">I'm a component A</div>`
+        };
+        let componentB = {
+            template: `<div style="color:green;">I'm a component B</div>`
+        };
+        let componentC = {
+            template: `<div style="color:pink;">I'm a component C</div>`
+        };
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                who: 'componentA'
+            },
+            components: {
+                'componentA': componentA,
+                'componentB': componentB,
+                'componentC': componentC,
+
+            },
+            methods: {
+                changeComponent: function() {
+                    if (this.who == 'componentA' ) {
+                        this.who = 'componentB';
+                    } else if (this.who == 'componentB') {
+                        this.who = 'componentC';
+                    } else {
+                        this.who = 'componentA';
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

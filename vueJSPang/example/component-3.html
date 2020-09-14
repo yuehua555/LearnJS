@@ -1,0 +1,48 @@
+<!--
+* @Author: George Wu
+* @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-14 21:21:50
+ * @FilePath: \vueJSPang\example\component-3.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>component-3</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>component-3</h1>
+    <hr>
+    <div id="app">
+        <panda></panda>
+    </div>
+
+    <script type="text/javascript">
+        let city = {
+            template: `<div style="color:green;">siChuan of China.</div>`
+        };
+        let pandaComponent = {
+            template: `
+            <div>
+            <p style="color:red;">Panda from China!</p>
+            <city></city>
+            </div>
+            `,
+            components: {
+                'city': city
+            }
+        };
+        
+        let app = new Vue({
+            el: '#app',
+            components:{
+                'panda': pandaComponent
+            }
+        });
+    </script>
+
+</body>
+</html>
