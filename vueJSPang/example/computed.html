@@ -1,0 +1,51 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-18 16:26:33
+ * @FilePath: \vueJSPang\example\computed.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>computed</h1>
+    <hr>
+    <div id="app">
+        <p>{{newPrice}}</p>
+        <ul>
+            <li v-for="item in reverseNews">{{item.title}}-{{item.date}}</li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        let newsList = [
+            {title: '9·18警钟长鸣，这段历史不该忘记，不能忘记！', date: '2020/09/14'},
+            {title: '国家网络安全宣传周  各地网安周宣传活动亮点纷呈', date: '2020/09/15'},
+            {title: '你需要知道的网络安全相关法律都有哪些（下）', date: '2020/09/16'},
+            {title: '习近平在长沙考察，彰显这两个关键词！', date: '2020/09/18'},
+        ];
+        let app = new Vue({
+            el: '#app',
+            data: {
+                price: 100,
+                newsList: newsList
+            },
+            computed:{
+                newPrice: function(){
+                    return '￥' + this.price + '元';
+                },
+                reverseNews: function() {
+                    return this.newsList.reverse();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
