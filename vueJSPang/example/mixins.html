@@ -1,0 +1,56 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-20 12:29:03
+ * @FilePath: \vueJSPang\example\mixins.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixins</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>Mixins option</h1>
+    <hr>
+    <div id="app">
+        {{num}}
+        <p><button @click="add">add</button></p>
+    </div>
+
+    <script type="text/javascript">
+        let addConsole ={
+            updated: function(){
+                console.log('数据发生变化：' + this.num);
+            }
+        };
+
+        Vue.mixin({
+            updated: function(){
+                console.log('我是全局的混入。');
+            }
+        });
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                num: 1
+            },
+            methods: {
+                add: function() {
+                    this.num++;
+                }
+            },
+            updated: function(){
+                console.log('我是原生的update')
+            },
+            mixins: [addConsole]
+
+        });
+    </script>
+
+</body>
+</html>
