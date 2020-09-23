@@ -1,0 +1,63 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-23 20:13:16
+ * @FilePath: \vueJSPang\example\example02.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>example methods demo</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>example methods demo</h1>
+    <hr>
+    <div id="app"></div>
+    <p><button onclick="destroy()">destroy</button></p>
+    <p><button onclick="reload()">reload</button></p>
+    <p><button onclick="tick()">更改数据</button></p>
+
+    <script type="text/javascript">
+        let jspang = Vue.extend({
+            template: '<p>{{message}}</p>',
+            data: function() {
+                return {
+                    message: 'Hello, I am Jspang'
+                };
+            },
+            mounted: function(){
+                console.log('mount 被创建');
+            },
+            destroyed: function() {
+                console.log('destroy 被调用');
+            },
+            updated: function(){
+                console.log('更新之后');
+            }
+        });
+
+        let vm = new jspang().$mount('#app');
+        function destroy() {
+            vm.$destroy();
+            console.log('destroy function 被调用')
+        }
+
+        function reload() {
+            vm.$forceUpdate();
+            console.log('reload function 被调用')
+        }
+
+        function tick() {
+            vm.message = 'update message info';
+            vm.$nextTick(function(){
+                console.log('message更新完后我被调用了');
+            });
+        }
+    </script>
+
+</body>
+</html>
