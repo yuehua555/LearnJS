@@ -1,0 +1,64 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-24 16:03:42
+ * @FilePath: \vueJSPang\example\example03.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>example 03</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>example 03</h1>
+    <hr>
+    <div id="app">
+        {{num}}
+        <p><button @click="add">add</button></p>
+    </div>
+    <p><button onclick="reduce()">reduce</button></p>
+    <p><button onclick="reduceOnce()">reduceOnce</button></p>
+    <p><button onclick="off()">off</button></p>
+
+    <script type="text/javascript">
+        let app = new Vue({
+            el: '#app',
+            data: {
+                num: 1
+            },
+            methods: {
+                add: function(){
+                    this.num++;
+                }
+            }
+        });
+
+        app.$on('reduce', function(){
+            console.log('reduce method is executed.')
+            this.num--;
+        });
+
+        app.$once('reduceOnce', function(){
+            console.log('reduceOnce method is executed.')
+            this.num--;
+        });
+
+        function reduce() {
+            app.$emit('reduce');
+        }
+
+        function reduceOnce(){
+            app.$emit('reduceOnce');
+        }
+
+        function off(){
+            app.$off('reduce');
+        }
+    </script>
+
+</body>
+</html>
