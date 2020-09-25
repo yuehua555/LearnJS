@@ -1,0 +1,55 @@
+<!--
+ * @Author: George Wu
+ * @Date: 2020-08-24 21:14:14
+ * @LastEditors: George Wu
+ * @LastEditTime: 2020-09-25 16:36:02
+ * @FilePath: \vueJSPang\example\slot.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slot</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+<body>
+    <h1>slot</h1>
+    <hr>
+    <div id="app">
+        <jspang>
+            <span slot="blogUrl">{{jspangData.blogUrl}}</span>
+            <span slot="netname">panda</span>
+            <span slot="skill">{{jspangData.skill}}</span>
+        </jspang>
+    </div>
+
+    <template id="tep">
+        <div>
+            <p>博客地址：<slot name="blogUrl"></slot></p>
+            <p>网名：<slot name="netname"></slot></p>
+            <p>技术类型：<slot name="skill"></slot></p>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        let jspang = {
+            template:"#tep"
+        };
+        let app = new Vue({
+            el: '#app',
+            data: {
+                jspangData: {
+                    blogUrl: 'https://jspang.com',
+                    netname: 'jspang',
+                    skill: 'web前端'
+                }
+            },
+            components: {
+                'jspang': jspang
+            }
+        });
+    </script>
+
+</body>
+</html>
